@@ -1,0 +1,5 @@
+motor
+python-dotenv
+tgcrypto
+kurigram
+openai

@@ -1,0 +1,16 @@
+from os import getenv
+from dotenv import load_dotenv
+
+load_dotenv()
+
+API_ID = int(getenv("API_ID", "0"))
+API_HASH = getenv("API_HASH", "")
+BOT_TOKEN = getenv("BOT_TOKEN", "")
+
+OWNER_ID = int(getenv("OWNER_ID", "0"))
+
+LOGGER_ID = int(getenv("LOGGER_ID", "0"))
+MONGO_URL = getenv("MONGO_URL", "")
+
+OPENAI_API_KEY = getenv("OPENAI_API_KEY", "")
+OPENAI_MODEL = getenv("OPENAI_MODEL", "gpt-4o-mini")
