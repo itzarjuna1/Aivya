@@ -7,6 +7,7 @@ from pyrogram.types import Message
 from src import app
 from src.database import get_chats
 
+
 @app.on_message(filters.command("logs") & filters.user(app.owner))
 async def broadcast_(_, message: Message):
     """Broadcasts a single message to all chats and users."""
@@ -15,7 +16,9 @@ async def broadcast_(_, message: Message):
     text = message.text.split(None, 1)[1] if len(message.command) > 1 else None
 
     if not reply and not text:
-        return await message.reply_text("❖ Reply to a message or provide text to broadcast.")
+        return await message.reply_text(
+            "❖ Reply to a message or provide text to broadcast."
+        )
 
     progress_msg = await message.reply_text("❖ Broadcasting message, please wait...")
 
@@ -39,7 +42,7 @@ async def broadcast_(_, message: Message):
 
         except FloodWait as fw:
             await asyncio.sleep(fw.value + 1)
-        except:
+        except BaseException:
             failed += 1
             continue
 

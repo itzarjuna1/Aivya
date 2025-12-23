@@ -1,5 +1,6 @@
-from pathlib import Path
 import importlib
+from pathlib import Path
+
 
 def list_modules():
     mod_dir = Path(__file__).parent
@@ -8,6 +9,7 @@ def list_modules():
         for file in mod_dir.glob("*.py")
         if file.is_file() and file.name != "__init__.py"
     ]
+
 
 ALL_MODULES = frozenset(sorted(list_modules()))
 

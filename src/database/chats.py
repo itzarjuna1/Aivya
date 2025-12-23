@@ -1,4 +1,4 @@
-from . import usersdb, chatsdb
+from . import chatsdb, usersdb
 
 
 async def get_chats() -> dict:
@@ -34,6 +34,7 @@ async def add_chat(chat_id, title=None):
     """
     if not await chatsdb.find_one({"chat_id": chat_id}):
         await chatsdb.insert_one({"chat_id": chat_id, "title": title})
+
 
 async def remove_chat(chat_id):
     """

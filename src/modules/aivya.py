@@ -1,13 +1,16 @@
 import time
 from asyncio import to_thread
+
 from pyrogram import filters
-from pyrogram.types import Message
 from pyrogram.enums import ChatAction
+from pyrogram.types import Message
+
 from src import app
 from src.utils import chatbot_api
 
 user_message_tracker = {}
 triggered_words = ["aivya", "baby"]
+
 
 def chatbot_filter_func(_, __, m: Message):
     if not m.text or not m.from_user or m.from_user.is_bot:
@@ -36,6 +39,7 @@ def chatbot_filter_func(_, __, m: Message):
 
 chatbot_filter = filters.create(chatbot_filter_func)
 
+
 @app.on_message(filters.text & filters.group & chatbot_filter)
 async def mention_chatbot(_, message: Message):
     await app.send_chat_action(message.chat.id, ChatAction.TYPING)
@@ -43,15 +47,23 @@ async def mention_chatbot(_, message: Message):
     chat_id = message.chat.id
     question = message.text.lower()
     user_name = " ".join(
-        part for part in [message.from_user.first_name, message.from_user.last_name] if part
+        part
+        for part in [message.from_user.first_name, message.from_user.last_name]
+        if part
     )
 
     if any(word in question for word in triggered_words):
-        reply = await to_thread(chatbot_api.ask_question, user_id, chat_id, question, user_name, True)
+        reply = await to_thread(
+            chatbot_api.ask_question, user_id, chat_id, question, user_name, True
+        )
     else:
-        reply = await to_thread(chatbot_api.ask_question, user_id, chat_id, question, user_name, False)
+        reply = await to_thread(
+            chatbot_api.ask_question, user_id, chat_id, question, user_name, False
+        )
 
     if not reply:
-        await message.reply_text(f"⚠️ {app.name} is currently unavailable. Please try again later.")
+        await message.reply_text(
+            f"⚠️ {app.name} is currently unavailable. Please try again later."
+        )
     else:
         await message.reply_text(reply)

@@ -1,8 +1,15 @@
 from pyrogram import Client, filters
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, ChatMemberUpdated
 from pyrogram.enums import ChatType, ParseMode
+from pyrogram.types import (
+    ChatMemberUpdated,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    Message,
+)
+
 from src import app
-from src.database import add_user, add_chat, remove_chat
+from src.database import add_chat, add_user, remove_chat
+
 
 @app.on_message(filters.command("start") & ~filters.bot)
 async def start(client: Client, m: Message):
@@ -13,16 +20,23 @@ async def start(client: Client, m: Message):
 
         await m.reply_text(
             f"""
-Welcome {m.from_user.mention} ✨  
+Welcome {m.from_user.mention} ✨
 I’m <b>{bot_name}</b>, a calm and wise friend here to listen and walk with you 🌿
 
 Whenever you feel like talking, just say <b>{bot_name}</b> or reply here 🌸
 """,
-            reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("Add me to your group", url=f"https://t.me/{client.me.username}?startgroup=true")]
-            ]),
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            "Add me to your group",
+                            url=f"https://t.me/{client.me.username}?startgroup=true",
+                        )
+                    ]
+                ]
+            ),
             parse_mode=ParseMode.HTML,
-            reply_to_message_id=m.id
+            reply_to_message_id=m.id,
         )
 
     elif m.chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
@@ -31,8 +45,9 @@ Whenever you feel like talking, just say <b>{bot_name}</b> or reply here 🌸
         await m.reply_text(
             f"Hey {m.from_user.mention}, I'm here to assist your group!",
             parse_mode=ParseMode.HTML,
-            reply_to_message_id=m.id
+            reply_to_message_id=m.id,
         )
+
 
 @app.on_chat_member_updated()
 async def chat_updates(client: Client, m: ChatMemberUpdated):
@@ -41,5 +56,9 @@ async def chat_updates(client: Client, m: ChatMemberUpdated):
     if m.new_chat_member and m.new_chat_member.user.id == bot_id:
         await add_chat(m.chat.id, m.chat.title)
 
-    elif m.old_chat_member and m.old_chat_member.user.id == bot_id and not m.new_chat_member:
+    elif (
+        m.old_chat_member
+        and m.old_chat_member.user.id == bot_id
+        and not m.new_chat_member
+    ):
         await remove_chat(m.chat.id)
