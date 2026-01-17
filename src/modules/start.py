@@ -34,6 +34,10 @@ Whenever you feel like talking, just say <b>{bot_name}</b> or reply here 🌸
                         )
                     ]
                 ]
+                        [
+            InlineKeyboardButton("📥ᴘʀᴏᴍᴏ📥", url="https://t.me/snowy_hometown"),
+            InlineKeyboardButton("💗ɢʀᴏᴜᴘ ᴄʜᴀᴛ💗", url="https://t.me/destiny_infinity_og"),
+        ],
             ),
             parse_mode=ParseMode.HTML,
             reply_to_message_id=m.id,
