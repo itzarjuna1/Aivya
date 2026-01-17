@@ -17,8 +17,8 @@ async def main():
         await app.send_message(app.logger, "Bot Started")
     except Exception as ex:
         raise SystemExit(
-            f"Bot has failed to access the log group: {
-                app.logger}"
+            f"""Bot has failed to access the log group: {
+                app.logger}"""
         )
 
     for module in ALL_MODULES:
