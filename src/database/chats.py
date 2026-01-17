@@ -1,4 +1,5 @@
-from . import chatsdb, usersdb
+from src.database.chatsdb import chatsdb
+from src.database.usersdb import usersdb
 
 
 async def get_chats() -> dict:
